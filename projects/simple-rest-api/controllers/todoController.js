@@ -12,16 +12,6 @@ const handleErrors = (error) => {
   return errors;
 };
 
-const todos_get = async (req, res) => {
-  try {
-    const todos = await Todo.find().sort({ createdAt: -1 });
-    res.render("index", { todos });
-  } catch (error) {
-    res.send("Error fetching data");
-    console.log(error);
-  }
-};
-
 const todos_post = async (req, res) => {
   const { data } = req.body;
 
@@ -34,16 +24,7 @@ const todos_post = async (req, res) => {
     console.log(error);
   }
 };
-const update_get = async (req, res) => {
-  const id = req.params.id;
 
-  try {
-    const todo = await Todo.findById(id);
-    res.render("update", { todo });
-  } catch (error) {
-    res.send("Todo not found");
-  }
-};
 const update_post = async (req, res) => {
   const id = req.params.id;
   const { data } = req.body;
@@ -56,6 +37,7 @@ const update_post = async (req, res) => {
     console.log(error);
   }
 };
+
 const delete_func = async (req, res) => {
   const id = req.params.id;
 
@@ -69,9 +51,7 @@ const delete_func = async (req, res) => {
 };
 
 module.exports = {
-  todos_get,
   todos_post,
-  update_get,
   update_post,
   delete_func,
 };

@@ -37,9 +37,7 @@ const createToken = (id) => {
   });
 };
 
-const login_get = (req, res) => {
-  res.render("login");
-};
+
 const login_post = async(req, res) => {
     const { email, password } = req.body;
     try {
@@ -58,6 +56,7 @@ const signup_get = (req, res) => {
 };
 const signup_post = async (req, res) => {
   const { email, password } = req.body;
+  
   try {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
@@ -71,17 +70,8 @@ const signup_post = async (req, res) => {
   }
 };
 
-const logout = (req, res) => {
-    res.cookie("jwt", "", {maxAge: 1})
-    res.json({response: {
-      auth: "sign out successful"
-    }})
-}
-
 module.exports = {
-  login_get,
   login_post,
   signup_get,
   signup_post,
-  logout
 };
