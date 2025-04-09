@@ -29,16 +29,13 @@ const checkUser = (req, res, next) => {
     jwt.verify(token, "net ninja soup", async (error, decodedToken) => {
       if (error) {
         console.log(error.message);
-        res.locals.user = null;
         next();
       } else {
         const user = await User.findById(decodedToken.id);
-        res.locals.user = user;
-        next();
+        return user
       }
     });
   } else {
-    res.locals.user = null;
     next();
   }
 };

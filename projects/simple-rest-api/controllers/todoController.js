@@ -1,28 +1,33 @@
 const Todo = require("../models/todoModel");
+const { checkUser } = require("../middleware/authMiddleware");
 
 const handleErrors = (error) => {
   let errors = { todoError: "" };
 
-  if (error._message.includes("todo validation failed")) {
-    errors.todoError = "Todo must be more that 6 characters";
-  }
-  
+  // if (error._message.includes("todo validation failed")) {
+  //   errors.todoError = "Todo must be more that 6 characters";
+  // }
+
   console.log(error);
 
   return errors;
 };
 
 const todos_post = async (req, res) => {
+  const user = checkUser
+  const id = user._id
+  console.log(id);
+  
   const { title, description } = req.body;
 
-  try {
-    const todo = await Todo.create({ data });
-    res.status(201).json({ id: todo.id });
-  } catch (error) {
-    const errors = handleErrors(error);
-    res.status(400).send({ errors: errors });
-    console.log(error);
-  }
+  // try {
+  //   const todo = await Todo.create({ title, description, id });
+  //   res.status(201).json({ id: todo });
+  // } catch (error) {
+  //   const errors = handleErrors(error);
+  //   res.status(400).send({ errors: errors });
+  //   console.log(error);
+  // }
 };
 
 const update_post = async (req, res) => {
