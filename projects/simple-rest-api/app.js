@@ -18,7 +18,7 @@ app.set("view engine", "ejs");
 
 // db connection
 const dbURI =
-  "mongodb+srv://ife:praisejoseph23@nodify.sieym.mongodb.net/todolist?retryWrites=true&w=majority&appName=Nodify";
+  "mongodb+srv://ife:praisejoseph23@nodify.sieym.mongodb.net/todolist-api?retryWrites=true&w=majority&appName=Nodify";
 
 mongoose
   .connect(dbURI)

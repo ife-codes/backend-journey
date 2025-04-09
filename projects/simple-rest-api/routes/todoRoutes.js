@@ -5,7 +5,6 @@ const todoController = require("../controllers/todoController")
 
 router.get("/", todoController.todos_get);
 router.post("/", todoController.todos_post);
-router.get("/update/:id", todoController.update_get);
 router.put("/update/:id", todoController.update_post)
 router.delete("/delete/:id", todoController.delete_func);
 

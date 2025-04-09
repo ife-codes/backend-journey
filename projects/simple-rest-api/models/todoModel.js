@@ -1,10 +1,16 @@
 const mongoose = require("mongoose");
 
 const todoSchema = mongoose.Schema({
-  data: {
+  title: {
     type: String,
     required: [true, "Please enter a valid todo"],
-    minlength: [6, "Todo must be more that 6 characters"]
+    minlength: [6, "Todo must be more than 6 characters"]
+  },
+  description: {
+    type: String,
+    required: [true, "Please enter a valid todo"],
+    minlength: [15, "Todo must be more than 15 characters"],
+    maxlength: [60, "Todo must be less than 60 characters"]
   },
 });
 

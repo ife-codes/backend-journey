@@ -6,6 +6,7 @@ const handleErrors = (error) => {
   if (error._message.includes("todo validation failed")) {
     errors.todoError = "Todo must be more that 6 characters";
   }
+  
   console.log(error);
 
   return errors;
