@@ -39,9 +39,13 @@ app.use(cookieParser());
 
 // requests
 
-// app.get("*", )
 app.get("/", (req, res) => {
   res.redirect("/todos")
 });
 app.use("/auth", authRoutes)
 app.use("/todos", requestAuth,checkUser, todoRoutes)
+
+// handle 404 requests
+app.use((req, res) => {
+  res.status(404).send("Invalid request")
+})

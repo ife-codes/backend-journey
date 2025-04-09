@@ -51,9 +51,7 @@ const login_post = async(req, res) => {
       res.status(400).json({ errors });
     }
 };
-const signup_get = (req, res) => {
-  res.render("signup");
-};
+
 const signup_post = async (req, res) => {
   const { email, password } = req.body;
 
@@ -71,6 +69,5 @@ const signup_post = async (req, res) => {
 
 module.exports = {
   login_post,
-  signup_get,
   signup_post,
 };
