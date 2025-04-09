@@ -1,5 +1,4 @@
 const Todo = require("../models/todoModel");
-const { checkUser } = require("../middleware/authMiddleware");
 
 const handleErrors = (error) => {
   let errors = { todoError: "" };
@@ -13,21 +12,29 @@ const handleErrors = (error) => {
   return errors;
 };
 
+const todos_get = async (req, res) => {
+  try {
+    const todos = await Todo.find().sort({ createdAt: -1 });
+    res.status(200).json({todos})
+  } catch (error) {
+    res.send("Error fetching data");
+    console.log(error);
+  }
+};
+
 const todos_post = async (req, res) => {
-  const user = checkUser
-  const id = user._id
-  console.log(id);
-  
+  const user = req.user
+
   const { title, description } = req.body;
 
-  // try {
-  //   const todo = await Todo.create({ title, description, id });
-  //   res.status(201).json({ id: todo });
-  // } catch (error) {
-  //   const errors = handleErrors(error);
-  //   res.status(400).send({ errors: errors });
-  //   console.log(error);
-  // }
+  try {
+    const todo = await Todo.create({ title, description, user });
+    res.status(201).json({ id: todo });
+  } catch (error) {
+    const errors = handleErrors(error);
+    res.status(400).send({ errors: errors });
+    console.log(error);
+  }
 };
 
 const update_post = async (req, res) => {

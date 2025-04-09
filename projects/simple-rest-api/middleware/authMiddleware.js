@@ -31,12 +31,12 @@ const checkUser = (req, res, next) => {
         console.log(error.message);
         next();
       } else {
-        const user = await User.findById(decodedToken.id);
-        return user
+        req.user = decodedToken.id;  // Store user in the request object
+        next();  // Continue to the next middleware or route handler
       }
     });
   } else {
-    next();
+    next();  // No token, move on
   }
 };
 

@@ -39,9 +39,9 @@ app.use(cookieParser());
 
 // requests
 
-app.get("*", checkUser)
+// app.get("*", )
 app.get("/", (req, res) => {
   res.redirect("/todos")
 });
 app.use("/auth", authRoutes)
-app.use("/todos", requestAuth, todoRoutes)
+app.use("/todos", requestAuth,checkUser, todoRoutes)
