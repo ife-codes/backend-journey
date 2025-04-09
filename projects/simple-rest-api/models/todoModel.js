@@ -12,6 +12,10 @@ const todoSchema = mongoose.Schema({
     minlength: [15, "Todo must be more than 15 characters"],
     maxlength: [60, "Todo must be less than 60 characters"]
   },
+  user: {
+    type: String,
+    required: [true, "User id must be provided"],
+  }
 });
 
 const Todo = mongoose.model("todo", todoSchema)

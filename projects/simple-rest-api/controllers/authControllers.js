@@ -56,13 +56,12 @@ const signup_get = (req, res) => {
 };
 const signup_post = async (req, res) => {
   const { email, password } = req.body;
-  
+
   try {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.cookie("email", JSON.stringify(user.email), { httpOnly: true, maxAge: maxAge * 1000 })
-    res.status(201).json({ user: user._id, ans: JSON.parse(user.email) });
+    res.status(201).json({ user: user._id });
   } catch (error) {
     console.log(error);
     const errors = handleErrors(error);

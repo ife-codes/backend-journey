@@ -7,9 +7,8 @@ const authError = {
 
 const requestAuth = (req, res, next) => {
   const token = req.cookies.jwt;
-  let email = req.cookies.email
 
-  if (token && email) {
+  if (token) {
     jwt.verify(token, "net ninja soup", (error, decodedToken) => {
       if (error) {
         console.log(error.message);

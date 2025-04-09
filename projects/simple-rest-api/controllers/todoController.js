@@ -13,7 +13,7 @@ const handleErrors = (error) => {
 };
 
 const todos_post = async (req, res) => {
-  const { data } = req.body;
+  const { title, description } = req.body;
 
   try {
     const todo = await Todo.create({ data });
