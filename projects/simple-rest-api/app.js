@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const ejs = require("ejs");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
+require("dotenv").config()
 
 // Local imports
 const authRoutes = require("./routes/authRoutes")
@@ -17,8 +18,7 @@ const app = express();
 app.set("view engine", "ejs");
 
 // db connection
-const dbURI =
-  "mongodb+srv://ife:praisejoseph23@nodify.sieym.mongodb.net/todolist-api?retryWrites=true&w=majority&appName=Nodify";
+const dbURI = process.env.MONGOOSE_CONNECTION_STRING;
 
 mongoose
   .connect(dbURI)

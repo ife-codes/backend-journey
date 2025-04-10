@@ -1,5 +1,6 @@
 const User = require("../models/authModel");
 const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 const handleErrors = (error) => {
   let errors = { email: "", password: "" };
@@ -32,7 +33,7 @@ const handleErrors = (error) => {
 const maxAge = 3 * 24 * 60 * 60;
 
 const createToken = (id) => {
-  return jwt.sign({ id }, "net ninja soup", {
+  return jwt.sign({ id }, process.env.JWT_SOUP, {
     expiresIn: maxAge,
   });
 };
