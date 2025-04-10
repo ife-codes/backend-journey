@@ -12,13 +12,13 @@ const requestAuth = (req, res, next) => {
     jwt.verify(token, "net ninja soup", (error, decodedToken) => {
       if (error) {
         console.log(error.message);
-        res.status(400).json({ errors: authError });
+        res.status(403).json({ errors: authError });
       } else {
         next();
       }
     });
   } else {
-    res.status(400).json({ errors: authError });
+    res.status(403).json({ errors: authError });
   }
 };
 
