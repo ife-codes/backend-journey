@@ -51,7 +51,7 @@ const login_post = async(req, res) => {
       const errors = handleErrors(error);
       res.status(400).json({ errors });
     }
-};
+};  
 
 const signup_post = async (req, res) => {
   const { email, password } = req.body;
