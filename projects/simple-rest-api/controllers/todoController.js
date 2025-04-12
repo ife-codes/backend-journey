@@ -21,15 +21,27 @@ const handleErrors = (error) => {
 const todos_get = async (req, res) => {
   const user = req.user;
   try {
-    const todos = await Todo.find({ user }).sort({ createdAt: -1 });
-    if(!todos) {
-      res.status(200).json({todos: "Your todos are empty"})
-    }
-    else {
-      res.status(200).json({ todos });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+
+    const skip = (page - 1) * limit;
+
+    const todos = await Todo.find({ user })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const total = Todo.countDocuments({ user });
+
+    if (!todos) {
+      res.status(200).json({ todos: "Your todos are empty" });
+    } else {
+      res
+        .status(200)
+        .json({ total, page, pages: Math.ceil(total / limit), todos });
     }
   } catch (error) {
-    res.status(500).send("Error fetching data");
+    res.status(500).json({ error: "Error fetching data" });
     console.log(error);
   }
 };
@@ -44,7 +56,7 @@ const todos_post = async (req, res) => {
     res.status(201).json({ id: todo });
   } catch (error) {
     const errors = handleErrors(error);
-    res.status(500).send({ errors: errors });
+    res.status(500).json({ errors: errors });
     console.log(error);
   }
 };
@@ -64,10 +76,10 @@ const update_post = async (req, res) => {
       });
       res.status(201).json({ update: "Update successful" });
     } else {
-      res.status(500).send("This id is invalid");
+      res.status(500).json({ error: "This id is invalid" });
     }
   } catch (error) {
-    res.status(500).send("Error updating todo");
+    res.status(500).json({ error: "Error updating todo" });
     console.log(error);
   }
 };
@@ -80,10 +92,10 @@ const delete_func = async (req, res) => {
       const todo = await Todo.findByIdAndDelete(id);
       res.status(201).json({ delete: "Deleted todo successfully" });
     } else {
-      res.status(500).send("This id is invalid");
+      res.status(500).json({ error: "This id is invalid" });
     }
   } catch (error) {
-    res.status(500).send("Error deleting todo");
+    res.status(500).json({ error: "Error deleting todo" });
     console.log(error);
   }
 };
