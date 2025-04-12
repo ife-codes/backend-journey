@@ -19,21 +19,34 @@ const handleErrors = (error) => {
 };
 
 const todos_get = async (req, res) => {
-  const user = req.user;
   try {
+    const user = req.user;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
 
     const skip = (page - 1) * limit;
 
-    const todos = await Todo.find({ user })
+    const { search } = req.query;
+    const todos = await Todo.find({
+      user,
+      $or: [
+        { title: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ],
+    })
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
-    const total = Todo.countDocuments({ user });
+    const total = await Todo.countDocuments({
+      user,
+      $or: [
+        { title: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ],
+    });
 
-    if (!todos) {
+    if (!todos.length) {
       res.status(200).json({ todos: "Your todos are empty" });
     } else {
       res

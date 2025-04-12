@@ -139,13 +139,3 @@ Akinmoyero Ifeoluwa - @ife-codes
 
 Crafting clean backend APIs with passion & precision 🚀
 GitHub
-
-📌 Coming Soon
-
-Swagger API Docs
-
-Pagination and Filtering
-
-Rate Limiting
-
-Refresh Tokens
