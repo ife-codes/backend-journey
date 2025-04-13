@@ -32,7 +32,11 @@ const checkUser = (req, res, next) => {
         console.log(error.message);
         next();
       } else {
+<<<<<<< HEAD
         req.userId = decodedToken.id;  // Store user in the request object
+=======
+        req.user = decodedToken.id;  // Store user in the request object
+>>>>>>> ea1b8a0dfb83d0d79c16e180ba98518066dfea43
         next();  // Continue to the next middleware or route handler
       }
     });
