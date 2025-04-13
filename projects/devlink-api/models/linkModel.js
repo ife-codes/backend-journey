@@ -11,7 +11,7 @@ const linkSchema = mongoose.Schema(
     url: {
       type: String,
       required: [true, "URL i required"],
-      validate: {
+       validate: {
         validator: function(value) {
           return validator.isURL(value, {
             protocols: ['http','https'],

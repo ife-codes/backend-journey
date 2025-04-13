@@ -46,7 +46,7 @@ app.get("/", (req, res) => {
   res.redirect("/links");
 });
 app.use("/api/auth", authRoutes);
-app.use("/api/links", requestAuth, checkUser, linkRoutes);
+app.use("api/links", requestAuth, checkUser, linkRoutes);
 
 // handle 404 requests
 app.use((req, res) => {
