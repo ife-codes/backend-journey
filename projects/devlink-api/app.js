@@ -9,11 +9,7 @@ const mongoSanitizer = require("express-mongo-sanitize");
 
 // Local imports
 const authRoutes = require("./routes/authRoutes")
-<<<<<<< HEAD
 const linkRoutes = require("./routes/linkRoutes");
-=======
-const todoRoutes = require("./routes/linkRoutes");
->>>>>>> ea1b8a0dfb83d0d79c16e180ba98518066dfea43
 const { requestAuth, checkUser } = require("./middleware/authMiddleware");
 
 // initialization
@@ -49,13 +45,8 @@ app.use(mongoSanitizer());
 app.get("/", (req, res) => {
   res.redirect("/links");
 });
-<<<<<<< HEAD
 app.use("/api/auth", authRoutes);
 app.use("/api/links", requestAuth, checkUser, linkRoutes);
-=======
-app.use("/auth", authRoutes);
-app.use("/links", requestAuth, checkUser, todoRoutes);
->>>>>>> ea1b8a0dfb83d0d79c16e180ba98518066dfea43
 
 // handle 404 requests
 app.use((req, res) => {

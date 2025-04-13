@@ -1,29 +1,18 @@
 const Link = require("../models/linkModel");
 
 const handleErrors = (error) => {
-<<<<<<< HEAD
   let errors = { title: "", url: "", category: "", notes: "" };
   if (error.message.includes("link validation failed")) {
     Object.values(error.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
     });
   }
-=======
-  let errors = { title: "", url: "", category: "", notes: "", user: "" }; 
-
-  // if (error.message.includes("link validation failed")) {
-  //   Object.values(error.errors).forEach(({ properties }) => {
-  //     errors[properties.path] = properties.message;
-  //   });
-  // }
->>>>>>> ea1b8a0dfb83d0d79c16e180ba98518066dfea43
 
   console.log(error);
 
   return errors;
 };
 
-<<<<<<< HEAD
 const get_link = async (req, res) => {
   res.send("link delete request");
 };
@@ -95,27 +84,4 @@ module.exports = {
   add_links,
   update_link,
   delete_link,
-=======
-const todos_get = async (req, res) => {
-  res.send("todo delete request");
-};
-
-const todos_post = async (req, res) => {
-  res.send("todo post request");
-};
-
-const update_post = async (req, res) => {
-  res.send("todo update request");
-};
-
-const delete_func = async (req, res) => {
-  res.send("todo delete request");
-};
-
-module.exports = {
-  todos_get,
-  todos_post,
-  update_post,
-  delete_func,
->>>>>>> ea1b8a0dfb83d0d79c16e180ba98518066dfea43
 };

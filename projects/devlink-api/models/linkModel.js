@@ -11,7 +11,6 @@ const linkSchema = mongoose.Schema(
     url: {
       type: String,
       required: [true, "URL i required"],
-<<<<<<< HEAD
       validate: {
         validator: function(value) {
           return validator.isURL(value, {
@@ -23,21 +22,6 @@ const linkSchema = mongoose.Schema(
         },
         message: 'Invalid URL format'
       }
-=======
-      validate: [
-        {
-          validator: function (value) {
-            validator.isURL(value, {
-              option: ["http", "https"],
-              require_protocol: true,
-              require_valid_protocol: true,
-              allow_underscores: true,
-            })
-          },
-          message: "Invalid URL format"
-        },
-      ],
->>>>>>> ea1b8a0dfb83d0d79c16e180ba98518066dfea43
     },
     category: {
       type: String,
