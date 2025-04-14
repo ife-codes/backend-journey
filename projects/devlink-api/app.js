@@ -11,6 +11,7 @@ const mongoSanitizer = require("express-mongo-sanitize");
 const authRoutes = require("./routes/authRoutes")
 const linkRoutes = require("./routes/linkRoutes");
 const { requestAuth, checkUser } = require("./middleware/authMiddleware");
+const limiter = require("./limitconfig")
 
 // initialization
 const app = express();
@@ -39,6 +40,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(mongoSanitizer());
+app.use(limiter)
 
 // requests
 
@@ -46,7 +48,7 @@ app.get("/", (req, res) => {
   res.redirect("/links");
 });
 app.use("/api/auth", authRoutes);
-app.use("api/links", requestAuth, checkUser, linkRoutes);
+app.use("/api/links", requestAuth, checkUser, linkRoutes);
 
 // handle 404 requests
 app.use((req, res) => {
