@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please enter a password"],
     minlength: [6, "Minimum length for password is 6"],
   },
+  profilePicture: {
+    type: String,
+    default: "uploads/default.png",
+  },
 });
 
 userSchema.pre("save", async function (next) {
@@ -25,15 +29,14 @@ userSchema.pre("save", async function (next) {
 
 userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
-  if(user) {
-    const auth = await bcrypt.compare(password, user.password)
-    if(auth) {
-      return user
+  if (user) {
+    const auth = await bcrypt.compare(password, user.password);
+    if (auth) {
+      return user;
     }
-    throw Error("Incorrect password")
-  }
-  else {
-    throw Error("Incorrect email")
+    throw Error("Incorrect password");
+  } else {
+    throw Error("Incorrect email");
   }
 };
 
