@@ -4,7 +4,7 @@ const upload = require("../utils/fileUpload")
 const authController = require("../controllers/authController")
 
 
-router.post("/signup", upload.single("profilePic"), authController.signup_post);
+router.post("/signup", upload.single("profilePicture"), authController.signup_post);
 router.post("/login", authController.login_post);
 
 module.exports = router;

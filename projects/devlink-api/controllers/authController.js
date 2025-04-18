@@ -55,14 +55,14 @@ const login_post = async(req, res) => {
 
 const signup_post = async (req, res) => {
   const { email, password } = req.body;
-  const profilePictrue = req.file ? req.file.path : "uploads/default.png"
   
-
+  
   try {
-    const user = await User.create({ email, password, profilePictrue });
+    const profilePic = req.file.path 
+    const user = await User.create({ email, password, profilePicture: profilePic });
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id });
+    res.status(201).json({ user: user._id, userImage: user.profilePicture, profilePic });
   } catch (error) {
     console.log(error);
     const errors = handleErrors(error);
