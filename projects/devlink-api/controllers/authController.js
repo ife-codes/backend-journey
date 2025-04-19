@@ -35,8 +35,8 @@ const login_post = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.login(email, password);
-    const access = accessToken(user._id);
-    const refresh = refreshToken(user._id);
+    const access = await accessToken(user._id);
+    const refresh = await refreshToken(user._id);
     res.cookie("refreshToken", refresh, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -60,12 +60,13 @@ const signup_post = async (req, res) => {
       password,
       profilePicture: profilePic,
     });
-    const access = accessToken(user._id);
-    const refresh = refreshToken(user._id);
+    const access = await accessToken(user._id);
+    const refresh = await refreshToken(user._id);
+    console.log(access, refresh);
+    
     res.cookie("refreshToken", refresh, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: "Strict",
     });
     res.status(200).json({ user: user._id, access_token: access });
   } catch (error) {
@@ -75,28 +76,33 @@ const signup_post = async (req, res) => {
   }
 };
 
-const refreshToken = (req, res) => {
+const refreshTokenFunc = (req, res) => {
   const token = req.cookies.refreshToken;
 
   if (!token) {
     return res.status(401).json({ msg: "No refresh token" });
   }
 
-  jwt.verify(token, process.env.REFRESH_TOKEN, (error, decoded) => {
+  jwt.verify(token, process.env.REFRESH_TOKEN, async (error, decoded) => {
     if (error) {
       return res.status(403).json({ msg: "Invalid token" });
     }
 
-    const access = accessToken(decoded.id)
+    const access = await accessToken(decoded.id)
     res.json({ access_token: access })
   });
 };
 
-const logout = () => {};
+const logout = (req, res) => {
+  res.clearCookie("refreshToken", { httpOnly: true, sameSite: "Strict" });
+  res.status(200).json({ message: "Logged out" });
+};
+const whoami = () => {};
 
 module.exports = {
   login_post,
   signup_post,
-  refreshToken,
+  refreshTokenFunc,
   logout,
+  whoami
 };

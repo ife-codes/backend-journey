@@ -10,7 +10,7 @@ const mongoSanitizer = require("express-mongo-sanitize");
 // Local imports
 const authRoutes = require("./routes/authRoutes")
 const linkRoutes = require("./routes/linkRoutes");
-const { requestAuth, checkUser } = require("./middleware/authMiddleware");
+const { requestAuth } = require("./middleware/authMiddleware");
 const limiter = require("./limitconfig")
 
 // initialization
@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
   res.redirect("/links");
 });
 app.use("/api/auth", authRoutes);
-app.use("/api/links", requestAuth, checkUser, linkRoutes);
+app.use("/api/links", requestAuth, linkRoutes);
 
 // handle 404 requests
 app.use((req, res) => {
