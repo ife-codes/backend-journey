@@ -63,7 +63,7 @@ const signup_post = async (req, res) => {
     const access = await accessToken(user._id);
     const refresh = await refreshToken(user._id);
     console.log(access, refresh);
-    
+
     res.cookie("refreshToken", refresh, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -88,8 +88,8 @@ const refreshTokenFunc = (req, res) => {
       return res.status(403).json({ msg: "Invalid token" });
     }
 
-    const access = await accessToken(decoded.id)
-    res.json({ access_token: access })
+    const access = await accessToken(decoded.id);
+    res.json({ access_token: access });
   });
 };
 
@@ -97,12 +97,38 @@ const logout = (req, res) => {
   res.clearCookie("refreshToken", { httpOnly: true, sameSite: "Strict" });
   res.status(200).json({ message: "Logged out" });
 };
-const whoami = () => {};
+
+const whoami = (req, res) => {
+  const refreshtoken = req.cookies.refreshToken;
+
+  if (!refreshtoken) {
+    res.status(401).json({ error: "You are currently logged out" });
+  } else {
+    jwt.verify(
+      refreshtoken,
+      process.env.REFRESH_TOKEN,
+      async (error, decoded) => {
+        if (error) {
+          res.status(403).json({ error: "Invalid token" });
+        } else {
+          const user = await User.findById(decoded.id);
+          if (user) {
+            res
+              .status(200)
+              .json({ email: user.email, profilePicture: user.profilePicture });
+          } else {
+            res.status(500).json({msg: "There was an unexpected error getting user"})
+          }
+        }
+      }
+    );
+  }
+};
 
 module.exports = {
   login_post,
   signup_post,
   refreshTokenFunc,
   logout,
-  whoami
+  whoami,
 };
