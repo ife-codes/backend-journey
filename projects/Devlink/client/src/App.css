@@ -26,6 +26,10 @@ main {
   min-height: 100dvh;
 }
 
+.other-main {
+  width: 100%;
+}
+
 .auth-main {
   width: 100%;
   display: flex;
@@ -66,6 +70,12 @@ main {
   padding: 10px 20px;
   border-radius: 5px;
   background-color: #0f172a;
+}
+
+.auth-main .form .auth-btn {
+  padding: 10px 20px;
+  background-color: #0f172a;
+  border-radius: 5px;
 }
 
 .main {

@@ -8,26 +8,71 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import NewLink from "./pages/NewLink";
 import Links from "./pages/Links";
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   const [count, setCount] = useState(0);
 
-  const location = useLocation()
-  const hideAside = location.pathname === "/login" || location.pathname === "/signup"
+  const location = useLocation();
+  const hideAside =
+    location.pathname === "/login" || location.pathname === "/signup";
 
   return (
     <>
       {!hideAside && <Aside />}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/links" element={<Links />} />
-          <Route path="/links/:id" element={<Details />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/create" element={<NewLink />} />
-        </Routes>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/links"
+          element={
+            <PrivateRoute>
+              <Links />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/links/:id"
+          element={
+            <PrivateRoute>
+              <Details />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/create"
+          element={
+            <PrivateRoute>
+              <NewLink />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
     </>
-  )
+  );
 }
 
 export default App;
