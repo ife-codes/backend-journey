@@ -23,15 +23,57 @@ aside ul {
 
 main {
   background: #0f172a;
-  width: 70%;
   min-height: 100dvh;
+}
+
+.auth-main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-main .form {
+  background-color: #1e293b;
+  border-radius: 1rem;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.auth-main .form .inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-main .form .email-container, .auth-main .form .password-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  gap: 3px;
+}
+
+.auth-main .form input {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #0f172a;
+}
+
+.main {
+  width: 70%;
   padding: 30px;
   display: flex;
   flex-direction: column;
   gap: 30px;
-}
-
-.main {
   overflow-y: scroll;
 }
 
@@ -66,6 +108,20 @@ main {
   gap: 30px;
 }
 
+.recent {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.recent-links, .links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+}
+
 .links-container h2 {
   font-size: 1.5rem;
   color: #e2e8f0
@@ -81,7 +137,7 @@ main {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
-  width: 300px;
+  width: 230px;
   height: 150px;
 }
 

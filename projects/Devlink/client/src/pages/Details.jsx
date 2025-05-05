@@ -2,7 +2,7 @@ import React from 'react'
 
 const Details = () => {
   return (
-    <main>Details</main>
+    <main className='main'>Details</main>
   )
 }
 

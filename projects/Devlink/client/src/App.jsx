@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Aside from "./components/Aside";
 import Home from "./pages/Home";
 import Details from "./pages/Details";
@@ -12,10 +12,12 @@ import Links from "./pages/Links";
 function App() {
   const [count, setCount] = useState(0);
 
+  const location = useLocation()
+  const hideAside = location.pathname === "/login" || location.pathname === "/signup"
+
   return (
     <>
-      <BrowserRouter>
-        <Aside />
+      {!hideAside && <Aside />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/links" element={<Links />} />
@@ -24,9 +26,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/create" element={<NewLink />} />
         </Routes>
-      </BrowserRouter>
     </>
-  );
+  )
 }
 
 export default App;
