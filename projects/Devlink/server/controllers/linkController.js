@@ -25,7 +25,7 @@ const get_links = async (req, res) => {
 
 const post_links = async (req, res) => {
   const { title, url, category, notes } = req.body;
-  const user_id = req.body
+  const user_id = req.user.id
   try {
     const { data, error } = await _supabase
       .from("links")

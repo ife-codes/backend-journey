@@ -1,15 +1,15 @@
 import React from "react";
 
-const LinkCard = ({title, link}) => {
+const LinkCard = ({ title, link, key }) => {
   return (
-    <div class="link-card">
-      <h3>{title}</h3>
+    <div className="link-card" key={key}>
+      <h3>{title.substring(0, 10) + "..."}</h3>
       <a href={link} target="_blank">
-        {link}
+        {link.substring(0, 25) + "..."}
       </a>
-      <div class="card-actions">
-        <button class="edit-btn">Edit</button>
-        <button class="delete-btn">Delete</button>
+      <div className="card-actions">
+        <button className="edit-btn">Edit</button>
+        <button className="delete-btn">Delete</button>
       </div>
     </div>
   );

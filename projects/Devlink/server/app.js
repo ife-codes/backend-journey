@@ -28,5 +28,5 @@ app.use("/auth", authRoutes);
 app.use("/links", requireAuth, linkRoutes);
 
 app.use((req, res) => {
-  res.status(401).json({ msg: "Invalid request" });
+  res.status(404).json({ msg: "Invalid request" });
 });
