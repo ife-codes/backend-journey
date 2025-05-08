@@ -3,7 +3,7 @@ const _supabase = require("../config/supabaseConfig");
 const get_links = async (req, res) => {
   try {
     const user_id = req.user.id;
-    
+
     const { data, error } = await _supabase
       .from("links")
       .select("*")
@@ -15,7 +15,7 @@ const get_links = async (req, res) => {
       res.status(500).json({ error: error.message });
     } else {
       res.status(200).json(data);
-      console.log(data); 
+      console.log(data);
     }
   } catch (error) {
     console.log("Server error", error);
@@ -25,7 +25,7 @@ const get_links = async (req, res) => {
 
 const post_links = async (req, res) => {
   const { title, url, category, notes } = req.body;
-  const user_id = req.user.id
+  const user_id = req.user.id;
   try {
     const { data, error } = await _supabase
       .from("links")
@@ -35,7 +35,7 @@ const post_links = async (req, res) => {
           url: url,
           category: category,
           notes: notes,
-          user_id: user_id
+          user_id: user_id,
         },
       ])
       .select();
@@ -58,7 +58,32 @@ const post_links = async (req, res) => {
   }
 };
 
+const total_posts = async (req, res) => {
+  try {
+    const user_id = req.user.id;
+    const { count, error } = await _supabase
+      .from("links")
+      .select({ count: "exact", head: true })
+      .eq("user_id", user_id);
+
+    if (error) {
+      res.status(500).json({ error });
+    }
+
+    res.status(200).json({ count });
+  } catch (error) {
+    console.error("Catch error:", err);
+    res
+      .status(500)
+      .json({ error: err.message || "Unexpected error occurred." });
+  }
+};
+
+const todays_posts = () => {};
+
 module.exports = {
   get_links,
   post_links,
+  todays_posts,
+  total_posts,
 };
