@@ -63,23 +63,52 @@ const total_posts = async (req, res) => {
     const user_id = req.user.id;
     const { count, error } = await _supabase
       .from("links")
-      .select({ count: "exact", head: true })
+      .select("*", { count: "exact", head: true })
       .eq("user_id", user_id);
 
     if (error) {
-      res.status(500).json({ error });
+      return res
+        .status(500)
+        .json({ error: error.message || "Error fetching count" });
     }
 
-    res.status(200).json({ count });
+    return res.status(200).json({ count });
   } catch (error) {
-    console.error("Catch error:", err);
-    res
+    console.error("Catch error:", error);
+    return res
       .status(500)
       .json({ error: err.message || "Unexpected error occurred." });
   }
 };
 
-const todays_posts = () => {};
+const todays_posts = (req, res) => {
+  try {
+    // time from this 00:00 midnight
+    const time = new Date();
+    const startOfToday = time.setHours(0, 0, 0, 0);
+
+    const user_id = req.user.id;
+
+    const { count, error } = supabase
+      .from("links")
+      .select("*", { count: "exact" })
+      .eq("user_id", user_id)
+      .gte("created_at", startOfToday.toISOString());
+
+    if (error) {
+      return res
+        .status(400)
+        .json({ error: error.message || "Error fetching count" });
+    }
+
+    return res.status(200).json({ count });
+  } catch (error) {
+    console.error("Catch error:", error);
+    return res
+      .status(500)
+      .json({ error: err.message || "Unexpected error occurred." });
+  }
+};
 
 module.exports = {
   get_links,

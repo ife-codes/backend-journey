@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LinkCard from "./LinkCard";
+import { supabase } from "../config/supabaseClient";
 
 const Boxes = () => {
+  const [total, setTotal] = useState(0);
+  const [recent, setRecent] = useState(0);
+
   const data = [
     {
       id: 1,
       title: "Total links",
-      num: 10,
+      num: total,
     },
     {
       id: 2,
@@ -29,6 +33,56 @@ const Boxes = () => {
       link: "https://github.io",
     },
   ];
+
+  const total_posts = async (token) => {
+    try {
+      const data = await fetch("http://localhost:3000/links/stats/total", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const countJson = await data.json();
+      const count = countJson.count;
+
+      return count
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const recent_posts = async (token) => {
+    try {
+      const data = await fetch("http://localhost:3000/links/stats/total", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const countJson = await data.json();
+      const count = countJson.count;
+
+      return count
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      const count = await total_posts(token);
+
+      setTotal(count)
+    };
+
+    getData();
+  }, []);
   return (
     <section>
       <div className="general">
