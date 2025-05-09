@@ -5,6 +5,7 @@ import { supabase } from "../config/supabaseClient";
 const Boxes = () => {
   const [total, setTotal] = useState(0);
   const [recent, setRecent] = useState(0);
+  const [loading, setLoading] = useState(true)
 
   const data = [
     {
@@ -15,7 +16,7 @@ const Boxes = () => {
     {
       id: 2,
       title: "Links created today",
-      num: 2,
+      num: recent,
     },
   ];
 
@@ -54,7 +55,7 @@ const Boxes = () => {
 
   const recent_posts = async (token) => {
     try {
-      const data = await fetch("http://localhost:3000/links/stats/total", {
+      const data = await fetch("http://localhost:3000/links/stats/today", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -77,12 +78,22 @@ const Boxes = () => {
       } = await supabase.auth.getSession();
       const token = session?.access_token;
       const count = await total_posts(token);
+      const count2 = await recent_posts(token);
 
       setTotal(count)
+      setRecent(count2)
+      setLoading(false)
     };
 
     getData();
   }, []);
+
+  if (loading) {
+    return (
+      <main>loading your data...</main>
+    )
+  }
+  
   return (
     <section>
       <div className="general">

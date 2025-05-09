@@ -77,19 +77,19 @@ const total_posts = async (req, res) => {
     console.error("Catch error:", error);
     return res
       .status(500)
-      .json({ error: err.message || "Unexpected error occurred." });
+      .json({ error: error.message || "Unexpected error occurred." });
   }
 };
 
-const todays_posts = (req, res) => {
+const todays_posts = async (req, res) => {
   try {
     // time from this 00:00 midnight
-    const time = new Date();
-    const startOfToday = time.setHours(0, 0, 0, 0);
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
 
     const user_id = req.user.id;
 
-    const { count, error } = supabase
+    const { count, error } = await _supabase
       .from("links")
       .select("*", { count: "exact" })
       .eq("user_id", user_id)
@@ -106,7 +106,7 @@ const todays_posts = (req, res) => {
     console.error("Catch error:", error);
     return res
       .status(500)
-      .json({ error: err.message || "Unexpected error occurred." });
+      .json({ error: error.message || "Unexpected error occurred." });
   }
 };
 
