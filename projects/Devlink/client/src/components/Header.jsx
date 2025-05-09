@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Header = () => {
+const Header = ({email}) => {
   return (
     <header>
-        <p>ife4373@gmail.com</p>
+        <p>{email}</p>
     </header>
   )
 }

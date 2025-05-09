@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import LinkCard from "../components/LinkCard";
 import { supabase } from "../config/supabaseClient";
+import { getCurrentUser } from "../components/getCurrentUser";
 
 const Links = () => {
   const [links, setLinks] = useState([]);
+  const [email, setEmail] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchLink = async (token) => {
@@ -30,10 +32,11 @@ const Links = () => {
       } = await supabase.auth.getSession();
 
       const token = session?.access_token;
-
       try {
         const data = await fetchLink(token);
+        const getMail = await getCurrentUser(session)
         setLinks(data);
+        setEmail(getMail)
       } catch (error) {
         console.log(error.message);
       } finally {
@@ -56,7 +59,7 @@ const Links = () => {
 
   return (
     <main className="main">
-      <Header />
+      <Header email={email} />
       <div className="links-container">
         <h2>Your Links</h2>
         <div className="links">
