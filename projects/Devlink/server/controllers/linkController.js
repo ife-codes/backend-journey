@@ -110,9 +110,33 @@ const todays_posts = async (req, res) => {
   }
 };
 
+const recent_links = async (req, res) => {
+  try {
+    const user_id = req.user.id
+    const { data, error } = await _supabase
+      .from("links")
+      .select("*")
+      .eq("user_id", user_id)
+      .order("created_at", { ascending: false })
+      .limit(3);
+
+    if (error) {
+      return res
+        .status(400)
+        .json({ error: error.message || "Error getting recent posts" });
+    }
+    
+    return res.status(200).json({ links: data });
+  } catch (error) {
+    console.log("Catch error: ", error.message);
+    return res.status(500).json({ error: error.message || "Unexpected error" });
+  }
+};
+
 module.exports = {
   get_links,
   post_links,
   todays_posts,
   total_posts,
+  recent_links
 };

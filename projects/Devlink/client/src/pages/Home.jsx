@@ -7,7 +7,8 @@ const Home = () => {
   const [total, setTotal] = useState(0);
   const [recent, setRecent] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
+  const [recentLinks, setRecentLinks] = useState([]);
 
   const total_posts = async (token) => {
     try {
@@ -27,7 +28,7 @@ const Home = () => {
     }
   };
 
-  const recent_posts = async (token) => {
+  const recent_links_count = async (token) => {
     try {
       const data = await fetch("http://localhost:3000/links/stats/today", {
         method: "GET",
@@ -45,32 +46,59 @@ const Home = () => {
     }
   };
 
+  const recent_links = async (token) => {
+    try {
+      const request = await fetch("http://localhost:3000/links/recent", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const response = await request.json();
+      const recent = response.links;
+
+      return recent;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const getData = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const token = session?.access_token;
-      const count = await total_posts(token);
-      const count2 = await recent_posts(token);
-      const getMail = await getCurrentUser(session)
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const token = session?.access_token;
+        const count = await total_posts(token);
+        const count2 = await recent_links_count(token);
+        const getMail = await getCurrentUser(session);
+        const getRecentLinks = await recent_links(token);
 
-      setTotal(count);
-      setRecent(count2);
-      setLoading(false);
-      setEmail(getMail)
+        setTotal(count);
+        setRecent(count2);
+        setEmail(getMail);
+        setRecentLinks(getRecentLinks);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     getData();
   }, []);
 
+
   if (loading) {
     return <main className="main">loading your data...</main>;
   }
+
   return (
     <main className="main">
       <Header email={email} />
-      <Boxes total={total} recent={recent} />
+      <Boxes total={total} recent={recent} recent_links={recentLinks} />
     </main>
   );
 };

@@ -1,6 +1,6 @@
 import LinkCard from "./LinkCard";
 
-const Boxes = ({ total, recent }) => {
+const Boxes = ({ total, recent, recent_links }) => {
   const data = [
     {
       id: 1,
@@ -46,8 +46,8 @@ const Boxes = ({ total, recent }) => {
       <div className="recent">
         <h2>Recent links</h2>
         <div className="recent-links">
-          {links.map((item) => (
-            <LinkCard title={item.title} link={item.link} />
+          {recent_links.map((item) => (
+            <LinkCard title={item.title} link={item.url} />
           ))}
         </div>
       </div>
